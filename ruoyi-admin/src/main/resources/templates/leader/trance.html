@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('任务列表')"/>
+    <th:block th:include="include :: layout-latest-css"/>
+    <th:block th:include="include :: ztree-css"/>
+</head>
+<body class="gray-bg">
+<div class="ui-layout-center">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="user-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                任务名称：<input type="text" name="name"/>
+                            </li>
+                            <li class="select-time">
+                                <label>创建时间： </label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间"
+                                       name="params[beginTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间"
+                                       name="params[endTime]"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+            <input type="hidden" id="wId" name="wId" th:value="${wId}"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: layout-latest-js"/>
+<th:block th:include="include :: ztree-js"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:pet:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:pet:remove')}]];
+    var prefix = ctx + "leader/trance";
+
+    $(function () {
+        var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('body').layout({initClosed: panehHidden, west__size: 185});
+        queryUserList();
+    });
+
+    function queryUserList() {
+        var wId = $('#wId').val();
+        var options = {
+            url: prefix + "/list/"+wId,
+            sortName: "createTime",
+            sortOrder: "desc",
+            modalName: "任务分配",
+            columns: [{
+                checkbox: true,
+            },
+                {
+                    field: 'taskId',
+                    title: '任务id',
+                },
+                {
+                    field: 'name',
+                    title: '任务名称',
+                },
+                {
+                    field: 'describe',
+                    title: '任务描述'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
+                },
+                {
+                    field: 'completion',
+                    title: '完成程度',
+                    formatter: function (value, item, index) {
+                        var number = item.completion;
+                        var String = number.toString();
+                        return String+'%';
+                    }
+                },
+                {
+                    field: 'createBy',
+                    title: '分配人'
+                },
+                {
+                    field: 'createTime',
+                    title: '任务分配时间',
+                    sortable: true
+                },
+                {
+                    field: 'updateBy',
+                    title: '更新者'
+                },
+                {
+                    field: 'updateTime',
+                    title: '更新时间',
+                    sortable: true
+                }]
+        };
+        $.table.init(options);
+    }
+
+
+    $('#btnCollapse').click(function () {
+        $._tree.expandAll(false);
+        $(this).hide();
+        $('#btnExpand').show();
+    });
+
+</script>
+</body>
+</html>
