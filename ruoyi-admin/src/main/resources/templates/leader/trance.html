@@ -62,7 +62,7 @@
     function queryUserList() {
         var wId = $('#wId').val();
         var options = {
-            url: prefix + "/list/"+wId,
+            url: prefix + "/list/" + wId,
             sortName: "createTime",
             sortOrder: "desc",
             modalName: "任务分配",
@@ -91,7 +91,13 @@
                     formatter: function (value, item, index) {
                         var number = item.completion;
                         var String = number.toString();
-                        return String+'%';
+                        var actions = [];
+                        actions.push('<small>当前进度:' + String + '%</small>');
+                        actions.push('<div class="progress progress-mini">');
+                        actions.push('<div style="width:' + String + '%;" class="progress-bar"></div>');
+                        actions.push('</div>');
+                        return actions.join('');
+
                     }
                 },
                 {
