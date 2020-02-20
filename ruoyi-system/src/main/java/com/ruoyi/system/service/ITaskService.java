@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import com.ruoyi.system.domain.SysTask;
 import com.ruoyi.system.domain.WorkerTask;
+import com.ruoyi.system.domain.WorkerTaskView;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface ITaskService {
     List<SysTask> selectTaskList(SysTask sysTask);
 
     Integer applyTo(WorkerTask workerTask);
+
+    List<WorkerTaskView> selectWorkerTaskList(WorkerTaskView workerTaskView);
+
+    Integer updateCompletion(WorkerTaskView workerTaskView);
 }

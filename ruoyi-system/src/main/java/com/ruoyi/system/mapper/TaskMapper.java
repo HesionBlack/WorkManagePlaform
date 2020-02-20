@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.SysTask;
 import com.ruoyi.system.domain.WorkerTask;
+import com.ruoyi.system.domain.WorkerTaskView;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -35,4 +36,23 @@ public interface TaskMapper {
 
     @Insert("INSERT INTO worker_task VALUES(#{wt.id},#{wt.wId},#{wt.taskId},#{wt.completion},#{wt.createTime},#{wt.createBy},#{wt.updateTime},#{wt.updateBy},#{wt.del_flag}) ")
     Integer applyTo(@Param("wt") WorkerTask wt);
+
+    @Select({"<script> " +
+            "SELECT * FROM v_worker_task  where del_flag = '0' AND wId=#{wId}" +
+            "<if test=\"name != null and name != ''\">" +
+            "AND name LIKE \'%${name}%\'</if>" +
+            "<if test=\"params.beginTime != null and params.beginTime != ''\">" +
+            "AND date_format(createTime,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')</if>" +
+            "<if test=\"params.endTime != null and params.endTime != ''\">" +
+            "AND date_format(createTime,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')</if>" +
+            "</script>"})
+    @Results(id = "SysWorkerTaskResult",
+            value = {
+                    @Result(property = "createTime", column = "create_time"),
+                    @Result(property = "updateTime", column = "update_time"),
+            })
+    List<WorkerTaskView> selectWorkerTaskList(WorkerTaskView workerTaskView);
+
+    @Update("UPDATE worker_task SET completion=#{completion},update_by=#{updateBy},update_time=#{updateTime} WHERE id=#{taskId}")
+    Integer updateCompletion(WorkerTaskView workerTaskView);
 }

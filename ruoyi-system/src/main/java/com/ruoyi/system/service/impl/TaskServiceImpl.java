@@ -10,6 +10,7 @@ package com.ruoyi.system.service.impl;/**
 
 import com.ruoyi.system.domain.SysTask;
 import com.ruoyi.system.domain.WorkerTask;
+import com.ruoyi.system.domain.WorkerTaskView;
 import com.ruoyi.system.mapper.TaskMapper;
 import com.ruoyi.system.service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,15 @@ public class TaskServiceImpl implements ITaskService {
     public Integer applyTo(WorkerTask workerTask) {
 
         return taskMapper.applyTo(workerTask);
+    }
+
+    @Override
+    public List<WorkerTaskView> selectWorkerTaskList(WorkerTaskView workerTaskView) {
+        return taskMapper.selectWorkerTaskList(workerTaskView);
+    }
+
+    @Override
+    public Integer updateCompletion(WorkerTaskView workerTaskView) {
+        return taskMapper.updateCompletion(workerTaskView);
     }
 }
