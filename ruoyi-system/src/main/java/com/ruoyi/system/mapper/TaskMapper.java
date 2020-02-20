@@ -16,7 +16,16 @@ import java.util.List;
  */
 @Mapper
 public interface TaskMapper {
-    @Select("SELECT * FROM sys_task WHERE del_flag='0'")
+    //    @Select("SELECT * FROM sys_task WHERE del_flag='0'")
+    @Select({"<script> " +
+            "SELECT * FROM sys_task  where del_flag = '0'" +
+            "<if test=\"name != null and name != ''\">" +
+            "AND name LIKE \'%${name}%\'</if>" +
+            "<if test=\"params.beginTime != null and params.beginTime != ''\">" +
+            "AND date_format(createTime,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')</if>" +
+            "<if test=\"params.endTime != null and params.endTime != ''\">" +
+            "AND date_format(createTime,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')</if>" +
+            "</script>"})
     @Results(id = "SysTaskResult",
             value = {
                     @Result(property = "createTime", column = "create_time"),

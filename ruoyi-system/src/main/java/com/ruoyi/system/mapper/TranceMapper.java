@@ -19,7 +19,7 @@ import java.util.List;
 @Mapper
 public interface TranceMapper {
     @Select("SELECT * FROM v_worker_task WHERE wId=#{wId}")
-    @Results(id = "SysPetResult",
+    @Results(id = "SysTranceResult",
             value = {
                     @Result(property = "createTime", column = "create_time"),
                     @Result(property = "updateTime", column = "update_time"),
