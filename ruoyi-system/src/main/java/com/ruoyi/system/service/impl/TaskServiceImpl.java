@@ -51,4 +51,9 @@ public class TaskServiceImpl implements ITaskService {
     public Integer updateCompletion(WorkerTaskView workerTaskView) {
         return taskMapper.updateCompletion(workerTaskView);
     }
+
+    @Override
+    public void updateAllocationStatu(String taskId) {
+        taskMapper.updateAllocationStatu(taskId);
+    }
 }

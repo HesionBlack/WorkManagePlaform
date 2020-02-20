@@ -27,4 +27,5 @@ public class SysTask extends BaseEntity {
     private String describe;
     private String remark;
     private String del_flag;
+    private Integer mallocStatu;
 }

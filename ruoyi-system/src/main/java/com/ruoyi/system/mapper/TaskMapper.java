@@ -31,6 +31,8 @@ public interface TaskMapper {
             value = {
                     @Result(property = "createTime", column = "create_time"),
                     @Result(property = "updateTime", column = "update_time"),
+                    @Result(property = "createBy", column = "create_by"),
+                    @Result(property = "updateBy", column = "update_by"),
             })
     List<SysTask> selectTaskList(SysTask sysTask);
 
@@ -50,9 +52,14 @@ public interface TaskMapper {
             value = {
                     @Result(property = "createTime", column = "create_time"),
                     @Result(property = "updateTime", column = "update_time"),
+                    @Result(property = "createBy", column = "create_by"),
+                    @Result(property = "updateBy", column = "update_by"),
             })
     List<WorkerTaskView> selectWorkerTaskList(WorkerTaskView workerTaskView);
 
     @Update("UPDATE worker_task SET completion=#{completion},update_by=#{updateBy},update_time=#{updateTime} WHERE id=#{taskId}")
     Integer updateCompletion(WorkerTaskView workerTaskView);
+
+    @Update("UPDATE sys_task SET mallocStatu=1 WHERE id=#{taskId}")
+    void updateAllocationStatu(String taskId);
 }

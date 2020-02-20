@@ -14,6 +14,7 @@ import java.util.List;
  * @author Hesion<br />
  * @since JDK 1.8
  */
+
 public interface ITaskService {
 
     List<SysTask> selectTaskList(SysTask sysTask);
@@ -23,4 +24,6 @@ public interface ITaskService {
     List<WorkerTaskView> selectWorkerTaskList(WorkerTaskView workerTaskView);
 
     Integer updateCompletion(WorkerTaskView workerTaskView);
+
+    void updateAllocationStatu(String taskId);
 }
