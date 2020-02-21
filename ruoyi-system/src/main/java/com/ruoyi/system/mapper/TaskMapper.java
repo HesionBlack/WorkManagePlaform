@@ -19,7 +19,7 @@ import java.util.List;
 public interface TaskMapper {
     //    @Select("SELECT * FROM sys_task WHERE del_flag='0'")
     @Select({"<script> " +
-            "SELECT * FROM sys_task  where del_flag = '0'" +
+            "SELECT * FROM sys_task  where del_flag = '0' AND mallocStatu=0 " +
             "<if test=\"name != null and name != ''\">" +
             "AND name LIKE \'%${name}%\'</if>" +
             "<if test=\"params.beginTime != null and params.beginTime != ''\">" +
@@ -40,7 +40,7 @@ public interface TaskMapper {
     Integer applyTo(@Param("wt") WorkerTask wt);
 
     @Select({"<script> " +
-            "SELECT * FROM v_worker_task  where del_flag = '0' AND wId=#{wId}" +
+            "SELECT * FROM v_worker_task  where del_flag = '2' AND wId=#{wId}" +
             "<if test=\"name != null and name != ''\">" +
             "AND name LIKE \'%${name}%\'</if>" +
             "<if test=\"params.beginTime != null and params.beginTime != ''\">" +

@@ -151,7 +151,7 @@
                 $.modal.alertError("系统错误");
             },
             success: function (data) {
-                $.modal.alertSuccess("申请成功，请耐心等待工作人员处理,您可在我的寄养申请里查看处理进度");
+                $.operate.successCallback(data);
             }
         });
     }

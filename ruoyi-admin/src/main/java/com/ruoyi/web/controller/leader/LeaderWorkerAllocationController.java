@@ -65,10 +65,11 @@ public class LeaderWorkerAllocationController extends BaseController {
         workerTask.setCreateTime(new Date());
         workerTask.setDel_flag("2");
         workerTask.setCompletion(0);
+
         Integer isApply = taskService.applyTo(workerTask);
         if(isApply >=1){
             taskService.updateAllocationStatu(workerTask.getTaskId());
-            return AjaxResult.success();
+            return AjaxResult.success("分配任务成功!");
         }else {
             return AjaxResult.error("分配任务失败，请重试");
         }
