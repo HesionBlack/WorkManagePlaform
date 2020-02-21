@@ -1,61 +1,74 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block th:include="include :: header('绩点修改')" />
+    <th:block th:include="include :: header('绩点修改')"/>
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-	<form class="form-horizontal m" id="form-leave-msg">
-		<div class="col-md-12">
-			<div class="form-group">
-				<label class="col-sm-3 control-label">修改原因：</label>
-				<div class="col-sm-9">
-					<input type="text" id="reason"name="reason" class="form-control" placeholder="请输入修改原因">
-					<input type="hidden" id="type"name="type" class="form-control" th:value="${type}">
-					<input type="hidden" id="wId"name="wId" class="form-control" th:value="${userId}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">绩点：</label>
-				<div class="col-sm-9">
-					<input type="number" id="score"name="score" class="form-control" placeholder="请输入绩点">
-				</div>
-			</div>
-		</div>
-	</form>
+    <form class="form-horizontal m" id="form-leave-msg">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">理由：</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="reason" name="reason">
+                        <option th:if="${type==0}" value="加班">加班</option>
+                        <option th:if="${type==1}" value="病假">病假</option>
+                        <option th:if="${type==1}" value="迟到">迟到</option>
+                        <option th:if="${type==1}" value="早退">早退</option>
+                    </select>
+                </div>
+                <div class="col-sm-9">
+                    <input type="hidden" id="type" name="type" class="form-control" th:value="${type}">
+                    <input type="hidden" id="wId" name="wId" class="form-control" th:value="${userId}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">绩点：</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="score" name="score">
+                        <option th:if="${type==0}" value="1.5">1.5</option>
+                        <option th:if="${type==1}" value="1">1</option>
+                        <option th:if="${type==1}" value="1">1</option>
+                        <option th:if="${type==1}" value="0">0</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-<th:block th:include="include :: footer" />
+<th:block th:include="include :: footer"/>
 <script type="text/javascript">
-	function submitHandler() {
-			Modify();
-	}
-	function Modify() {
+    function submitHandler() {
+        Modify();
+    }
 
-		var type = $('#type').val();
-		var wId = $('#wId').val();
-		var reason = $('#reason').val();
-		var score = $('#score').val();
-		var formData = new FormData();
-		formData.append('type', type);
-		formData.append('wId', wId);
-		formData.append('reason', reason);
-		formData.append('score', score);
-		$.ajax({
-			processData: false,
-			contentType: false,
-			cache : false,
-			type : "POST",
-			url : ctx + "leader/Performance/Modify",
-			data :formData,
-			async : false,
-			error : function(request) {
-				$.modal.alertError("系统错误");
-			},
-			success : function(data) {
-				$.operate.successCallback(data);
-			}
-		});
-	}
+    function Modify() {
+
+        var type = $('#type').val();
+        var wId = $('#wId').val();
+        var reason = $('#reason option:selected').val();
+        var score = $('#score option:selected').val();
+        var formData = new FormData();
+        formData.append('type', type);
+        formData.append('wId', wId);
+        formData.append('reason', reason);
+        formData.append('score', score);
+        $.ajax({
+            processData: false,
+            contentType: false,
+            cache: false,
+            type: "POST",
+            url: ctx + "leader/Performance/Modify",
+            data: formData,
+            async: false,
+            error: function (request) {
+                $.modal.alertError("系统错误");
+            },
+            success: function (data) {
+                $.operate.successCallback(data);
+            }
+        });
+    }
 </script>
 </body>
 </html>
