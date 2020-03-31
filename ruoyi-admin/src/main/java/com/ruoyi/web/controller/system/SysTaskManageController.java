@@ -87,11 +87,19 @@ public class SysTaskManageController extends BaseController {
     @PostMapping("/remove/{id}")
     @ResponseBody
     public AjaxResult remove(@PathVariable String id){
-        Integer remove=taskManageService.remove(id);
-        if(remove>0){
-            return AjaxResult.success("删除成功!");
-        }else {
-            return AjaxResult.error("删除失败!");
+//        Integer remove=taskManageService.remove(id);
+//        if(remove>0){
+//            return AjaxResult.success("删除成功!");
+//        }else {
+//            return AjaxResult.error("删除失败!");
+//        }
+        try
+        {
+            return toAjax(taskManageService.remove(id));
+        }
+        catch (Exception e)
+        {
+            return error(e.getMessage());
         }
     }
 

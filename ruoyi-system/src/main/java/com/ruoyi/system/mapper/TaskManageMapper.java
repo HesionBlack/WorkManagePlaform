@@ -44,4 +44,7 @@ public interface TaskManageMapper {
 
     @Delete("DELETE FROM sys_task WHERE id=#{id}")
     Integer remove(String id);
+
+    @Select("SELECT count(*) FROM worker_task WHERE taskId=#{taskId}")
+    Integer isDistribution(String taskId);
 }

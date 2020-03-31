@@ -8,6 +8,7 @@ package com.ruoyi.system.service.impl;/**
  * @since JDK 1.8
  */
 
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.system.domain.SysTask;
 import com.ruoyi.system.mapper.TaskManageMapper;
 import com.ruoyi.system.service.ITaskManageService;
@@ -38,7 +39,7 @@ public class TaskManageServiceImpl implements ITaskManageService {
 
     @Override
     public Integer add(SysTask sysTask) {
-        sysTask.setId(UUID.randomUUID().toString());
+        sysTask.setId(UUID.randomUUID().toString().substring(0,10));
         sysTask.setCreateTime(new Date());
         sysTask.setMallocStatu(0);
         sysTask.setDel_flag("0");
@@ -58,6 +59,10 @@ public class TaskManageServiceImpl implements ITaskManageService {
 
     @Override
     public Integer remove(String id) {
+        if (taskManageMapper.isDistribution(id) > 0)
+        {
+            throw new BusinessException(String.format("该任务已分配,不能删除"));
+        }
         return taskManageMapper.remove(id);
     }
 }
